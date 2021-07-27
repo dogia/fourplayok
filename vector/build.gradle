@@ -218,7 +218,7 @@ android {
     buildTypes {
         debug {
             applicationIdSuffix ".debug"
-            resValue "string", "app_name", "SchildiChat. dbg"
+            resValue "string", "app_name", "FourPlay. dbg"
 
             resValue "bool", "debug_mode", "true"
             buildConfigField "boolean", "LOW_PRIVACY_LOG_ENABLE", "false"
@@ -229,7 +229,7 @@ android {
         }
 
         release {
-            resValue "string", "app_name", "SchildiChat."
+            resValue "string", "app_name", "FourPlay."
 
             resValue "bool", "debug_mode", "false"
             buildConfigField "boolean", "LOW_PRIVACY_LOG_ENABLE", "false"

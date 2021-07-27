@@ -20,6 +20,8 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
@@ -105,14 +107,31 @@ class MainActivity : VectorBaseActivity<ActivityMainBinding>(), UnlockedActivity
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         args = parseArgs()
-        if (args.clearCredentials || args.isUserLoggedOut || args.clearCache) {
-            clearNotifications()
-        }
-        // Handle some wanted cleanup
-        if (args.clearCache || args.clearCredentials) {
-            doCleanUp()
-        } else {
-            startNextActivityAndFinish()
+        Timber.w("OK")
+        setContentView(R.layout.activity_main)
+        webView()
+
+//        super.onCreate(savedInstanceState)
+//        args = parseArgs()
+//        if (args.clearCredentials || args.isUserLoggedOut || args.clearCache) {
+//            clearNotifications()
+//        }
+//        // Handle some wanted cleanup
+//        if (args.clearCache || args.clearCredentials) {
+//            doCleanUp()
+//        } else {
+//            startNextActivityAndFinish()
+//        }
+    }
+
+    private fun webView(){
+        val mWebView = findViewById<WebView>(R.id.wb_news)
+        mWebView.webViewClient = WebViewClient()
+
+        mWebView.apply {
+            loadUrl("https://www.bbc.com/news/business/economy")
+            settings.javaScriptEnabled = true
+            settings.safeBrowsingEnabled = true
         }
     }
 

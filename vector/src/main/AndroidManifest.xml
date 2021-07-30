@@ -13,6 +13,10 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
+    <!-- Identification -->
+    <uses-permission android:name="android.permission.NFC" />
+    <uses-permission android:name="android.permission.NFC_TRANSACTION_EVENT" />
+
     <!-- Call feature -->
     <uses-permission android:name="android.permission.MANAGE_OWN_CALLS" />
     <!-- Commented because Google PlayStore does not like we add permission if we are not requiring it. And it was added for future use -->
@@ -51,6 +55,9 @@
         android:name="android.hardware.camera.autofocus"
         android:required="false" />
 
+    <!-- App Just for NFC compatible mobiles -->
+    <uses-feature android:name="android.hardware.nfc" android:required="true" />
+
     <!-- Since Android 11, see https://developer.android.com/training/package-visibility -->
     <queries>
         <!-- To open URL in CustomTab (prefetch, etc.). It makes CustomTabsClient.getPackageName() work
@@ -82,9 +89,9 @@
             android:name="android.max_aspect"
             android:value="9.9" />
 
-        <activity
+        <!--<activity
             android:name=".features.MainActivity"
-            android:theme="@style/AppTheme.Launcher.SC" />
+            android:theme="@style/AppTheme.Launcher.SC" />-->
 
         <!-- Activity alias for the launcher Activity (must be declared after the Activity it targets) -->
         <activity-alias
@@ -119,6 +126,26 @@
                     android:scheme="element" />
             </intent-filter>
         </activity>
+
+        <!-- NFC identification -->
+        <activity android:name=".features.MainActivity" android:theme="@style/AppTheme.Launcher.SC" android:label="Four Play">
+            <!-- Add a technology filter -->
+            <intent-filter>
+                <action android:name="android.nfc.action.TECH_DISCOVERED" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:mimeType="auth/crypto_fp" />
+            </intent-filter>
+
+            <meta-data android:name="android.nfc.action.TECH_DISCOVERED"
+                android:resource="@xml/tech_list_nfc"
+                />
+        </activity>
+
+
         <activity
             android:name=".features.login2.LoginActivity2"
             android:launchMode="singleTask"

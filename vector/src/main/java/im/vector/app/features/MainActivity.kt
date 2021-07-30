@@ -18,6 +18,8 @@ package im.vector.app.features
 
 import android.app.Activity
 import android.content.Intent
+import android.nfc.NdefMessage
+import android.nfc.NfcAdapter
 import android.os.Bundle
 import android.os.Parcelable
 import android.webkit.WebView
@@ -36,6 +38,7 @@ import im.vector.app.core.utils.deleteAllFiles
 import im.vector.app.databinding.ActivityMainBinding
 import im.vector.app.features.home.HomeActivity
 import im.vector.app.features.home.ShortcutsHandler
+import im.vector.app.features.nfc.NFCUtil
 import im.vector.app.features.notifications.NotificationDrawerManager
 import im.vector.app.features.pin.PinCodeStore
 import im.vector.app.features.pin.PinLocker
@@ -88,6 +91,8 @@ class MainActivity : VectorBaseActivity<ActivityMainBinding>(), UnlockedActivity
 
     override fun getOtherThemes() = ActivityOtherThemes.Launcher
 
+    private var mNfcAdapter: NfcAdapter? = null
+
     private lateinit var args: MainActivityArgs
 
     @Inject lateinit var notificationDrawerManager: NotificationDrawerManager
@@ -107,21 +112,28 @@ class MainActivity : VectorBaseActivity<ActivityMainBinding>(), UnlockedActivity
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         args = parseArgs()
-        Timber.w("OK")
         setContentView(R.layout.activity_main)
-        webView()
 
-//        super.onCreate(savedInstanceState)
-//        args = parseArgs()
-//        if (args.clearCredentials || args.isUserLoggedOut || args.clearCache) {
-//            clearNotifications()
-//        }
-//        // Handle some wanted cleanup
-//        if (args.clearCache || args.clearCredentials) {
-//            doCleanUp()
-//        } else {
-//            startNextActivityAndFinish()
-//        }
+
+        mNfcAdapter = NfcAdapter.getDefaultAdapter(this)
+
+        val nfcData = NFCUtil.retrieveNFCMessage(this.intent)
+        Timber.w(nfcData)
+
+        if(nfcData == "Hello!"){
+            args = parseArgs()
+            if (args.clearCredentials || args.isUserLoggedOut || args.clearCache) {
+                clearNotifications()
+            }
+            // Handle some wanted cleanup
+            if (args.clearCache || args.clearCredentials) {
+                doCleanUp()
+            } else {
+                startNextActivityAndFinish()
+            }
+        }else {
+            webView()
+        }
     }
 
     private fun webView(){
@@ -132,6 +144,20 @@ class MainActivity : VectorBaseActivity<ActivityMainBinding>(), UnlockedActivity
             loadUrl("https://www.bbc.com/news/business/economy")
             settings.javaScriptEnabled = true
             settings.safeBrowsingEnabled = true
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mNfcAdapter?.let {
+            NFCUtil.enableNFCInForeground(it, this, javaClass)
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mNfcAdapter?.let {
+            NFCUtil.disableNFCInForeground(it, this)
         }
     }
 

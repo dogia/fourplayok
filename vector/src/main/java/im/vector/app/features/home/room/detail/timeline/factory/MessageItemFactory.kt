@@ -147,6 +147,7 @@ class MessageItemFactory @Inject constructor(
 
 //        val all = event.root.toContent()
 //        val ev = all.toModel<Event>()
+
         return when (messageContent) {
             is MessageEmoteContent               -> buildEmoteMessageItem(messageContent, informationData, highlight, callback, attributes)
             is MessageTextContent                -> buildItemForTextContent(messageContent, informationData, highlight, callback, attributes)

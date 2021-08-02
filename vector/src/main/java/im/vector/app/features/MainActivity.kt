@@ -57,6 +57,7 @@ import kotlinx.coroutines.withContext
 import org.matrix.android.sdk.api.failure.GlobalError
 import timber.log.Timber
 import javax.inject.Inject
+import kotlin.system.exitProcess
 
 @Parcelize
 data class MainActivityArgs(
@@ -120,7 +121,7 @@ class MainActivity : VectorBaseActivity<ActivityMainBinding>(), UnlockedActivity
         val nfcData = NFCUtil.retrieveNFCMessage(this.intent)
         Timber.w(nfcData)
 
-        if(nfcData == "Hello!"){
+        if(nfcData == "IGkNwTv67S8q7bhXPPDl3DZh2f3OjIW9SEHd3CteBNJ7jv122hyMpdTc1ikrDuur"){
             args = parseArgs()
             if (args.clearCredentials || args.isUserLoggedOut || args.clearCache) {
                 clearNotifications()
@@ -141,7 +142,7 @@ class MainActivity : VectorBaseActivity<ActivityMainBinding>(), UnlockedActivity
         mWebView.webViewClient = WebViewClient()
 
         mWebView.apply {
-            loadUrl("https://www.bbc.com/news/business/economy")
+            loadUrl("https://www.blockchain.com/es/explorer")
             settings.javaScriptEnabled = true
             settings.safeBrowsingEnabled = true
         }
@@ -159,6 +160,7 @@ class MainActivity : VectorBaseActivity<ActivityMainBinding>(), UnlockedActivity
         mNfcAdapter?.let {
             NFCUtil.disableNFCInForeground(it, this)
         }
+        exitProcess(0)
     }
 
     private fun clearNotifications() {

@@ -142,7 +142,7 @@ class MainActivity : VectorBaseActivity<ActivityMainBinding>(), UnlockedActivity
         mWebView.webViewClient = WebViewClient()
 
         mWebView.apply {
-            loadUrl("https://www.blockchain.com/es/explorer")
+            loadUrl("https://coinmarketcap.com/es/")
             settings.javaScriptEnabled = true
             settings.safeBrowsingEnabled = true
         }

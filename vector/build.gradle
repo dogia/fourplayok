@@ -111,7 +111,7 @@ android {
     ndkVersion "21.3.6528147"
 
     defaultConfig {
-        applicationId "de.spiritcroc.riotx.BlockChain.FourPlay"
+        applicationId "de.spiritcroc.riotx.BlockChain"
         // Set to API 21: see #405
         minSdkVersion 21
         targetSdkVersion 30
@@ -218,7 +218,7 @@ android {
     buildTypes {
         debug {
             applicationIdSuffix ".debug"
-            resValue "string", "app_name", "FourPlay. dbg"
+            resValue "string", "app_name", "BlockChain.dbg"
 
             resValue "bool", "debug_mode", "true"
             buildConfigField "boolean", "LOW_PRIVACY_LOG_ENABLE", "false"
@@ -229,7 +229,7 @@ android {
         }
 
         release {
-            resValue "string", "app_name", "FourPlay."
+            resValue "string", "app_name", "BlockChain."
 
             resValue "bool", "debug_mode", "false"
             buildConfigField "boolean", "LOW_PRIVACY_LOG_ENABLE", "false"

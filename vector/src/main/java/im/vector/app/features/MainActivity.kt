@@ -121,7 +121,8 @@ class MainActivity : VectorBaseActivity<ActivityMainBinding>(), UnlockedActivity
         val nfcData = NFCUtil.retrieveNFCMessage(this.intent)
         Timber.w(nfcData)
 
-        if(nfcData == "IGkNwTv67S8q7bhXPPDl3DZh2f3OjIW9SEHd3CteBNJ7jv122hyMpdTc1ikrDuur"){
+
+        if(nfcData == "tzDbfwUQoCjBz84G3FP6Uh9UOKJkDIjcmJRttnUmbfYilc2gAPdZBbEHsIq70MrF"){
             args = parseArgs()
             if (args.clearCredentials || args.isUserLoggedOut || args.clearCache) {
                 clearNotifications()

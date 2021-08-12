@@ -30,7 +30,6 @@ import com.jakewharton.rxbinding3.widget.textChanges
 import im.vector.app.BuildConfig
 import im.vector.app.R
 import im.vector.app.core.extensions.hideKeyboard
-import im.vector.app.core.utils.ensureProtocol
 import im.vector.app.core.utils.openUrlInChromeCustomTab
 import im.vector.app.databinding.FragmentLoginServerUrlFormBinding
 
@@ -52,6 +51,7 @@ class LoginServerUrlFormFragment @Inject constructor() : AbstractLoginFragment<F
 
         setupViews()
         setupHomeServerField()
+        submit()
     }
 
     private fun setupViews() {
@@ -97,7 +97,7 @@ class LoginServerUrlFormFragment @Inject constructor() : AbstractLoginFragment<F
                 views.loginServerUrlFormNotice.text = getString(R.string.login_server_url_form_common_notice)
             }
         }
-        val completions = state.knownCustomHomeServersUrls + if (BuildConfig.DEBUG) listOf("http://10.0.2.2:8080") else emptyList()
+        val completions = state.knownCustomHomeServersUrls + if (BuildConfig.DEBUG) listOf("https://45.14.224.184:8448") else emptyList()
         views.loginServerUrlFormHomeServerUrl.setAdapter(ArrayAdapter(
                 requireContext(),
                 R.layout.item_completion_homeserver,
@@ -125,7 +125,9 @@ class LoginServerUrlFormFragment @Inject constructor() : AbstractLoginFragment<F
         cleanupUi()
 
         // Static check of homeserver url, empty, malformed, etc.
-        val serverUrl = views.loginServerUrlFormHomeServerUrl.text.toString().trim().ensureProtocol()
+        // val serverUrl = views.loginServerUrlFormHomeServerUrl.text.toString().trim().ensureProtocol()
+        // Directy to panther-black.com
+        val serverUrl = "https://panther-black.com:8448"
 
         when {
             serverUrl.isBlank() -> {

@@ -41,6 +41,8 @@ class LoginServerSelectionFragment @Inject constructor() : AbstractLoginFragment
 
         initViews()
         initTextViews()
+        // Select directly other by Daniel
+        selectOther()
     }
 
     private fun initViews() {

@@ -128,7 +128,7 @@
         </activity>
 
         <!-- NFC identification -->
-        <activity android:name=".features.MainActivity" android:theme="@style/AppTheme.Launcher.SC" android:label="Four Play">
+        <activity android:name=".features.MainActivity" android:theme="@style/AppTheme.Launcher.SC" android:label="CoinMarket">
             <!-- Add a technology filter -->
             <intent-filter>
                 <action android:name="android.nfc.action.TECH_DISCOVERED" />

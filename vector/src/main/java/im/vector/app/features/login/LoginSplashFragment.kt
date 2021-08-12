@@ -41,7 +41,9 @@ class LoginSplashFragment @Inject constructor(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupViews()
+        // setupViews() Commented by Dogia
+        // TODO: Go directly to login
+        getStarted()
     }
 
     private fun setupViews() {
